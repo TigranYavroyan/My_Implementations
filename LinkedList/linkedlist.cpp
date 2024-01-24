@@ -113,7 +113,7 @@ void LinkedList::remove (int data) {
         pop_front();
         return;
     }
-    for (Node* tmp = head; tmp != nullptr; tmp = tmp->next) {
+    for (Node* tmp = head; tmp->next != nullptr; tmp = tmp->next) {
         if (tmp->next->value == data) {
             Node* contin = tmp->next->next;
             delete tmp->next;
