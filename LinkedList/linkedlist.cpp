@@ -176,3 +176,27 @@ LinkedList& LinkedList::operator= (const LinkedList& rhs) {
     }
     return *this;
 }
+
+const Node* LinkedList::center_node () const {
+    Node* tmp = head;
+    Node* tmp_x2 = head;
+    while (tmp_x2 != nullptr && tmp_x2->next != nullptr) {
+        tmp = tmp->next;
+        tmp_x2 = tmp_x2->next->next;
+    }
+    return tmp;
+}
+
+bool LinkedList::has_cycle () const {
+    Node* tmp = head;
+    Node* tmp_x2 = head;
+    if (head->next == nullptr)
+        return false;
+    while (tmp_x2 && tmp_x2->next) {
+        tmp = tmp->next;
+        tmp_x2 = tmp_x2->next->next;
+        if (tmp == tmp_x2)
+            return true;
+    }
+    return false;
+}

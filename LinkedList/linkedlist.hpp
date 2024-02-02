@@ -1,7 +1,14 @@
 #ifndef LINKEDLIST_HPP
 #define LINKEDLIST_HPP
 
+struct Node {
+    int value{};
+    Node* next{nullptr};
+};
+
 class LinkedList {
+private:
+    Node* head;
 public:
     LinkedList ();
     LinkedList (const LinkedList& other);
@@ -9,6 +16,7 @@ public:
     ~LinkedList ();
 public:
     bool empty () const;
+    bool has_cycle () const;
     void push_back (int n);
     void push_front (int n);
     void display () const;
@@ -19,17 +27,12 @@ public:
     void remove (int data);
     int get (int index) const;
     int size () const;
+    const Node* center_node () const;
 public:
     int& operator[] (int index);
     const int& operator[] (int index) const;
     LinkedList operator+ (const LinkedList& other) const;
     LinkedList& operator= (const LinkedList& rhs);
-private:
-    struct Node {
-        int value{};
-        Node* next{nullptr};
-    };
-    Node* head;
 };
 
 #include "linkedlist.cpp"
