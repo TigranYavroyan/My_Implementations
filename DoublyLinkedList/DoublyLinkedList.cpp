@@ -114,43 +114,140 @@ void Dlist::pop_front () {
 }
 
 void Dlist::remove (int data) {
-    
+    if (head == nullptr)
+        return;
+    if (head->value == data)
+        pop_front();
+    else if (tail->value == data)
+        pop_back();
+    else {    
+        Node *tmp = head;
+        while (tmp) {
+            if (data == tmp->value)
+            {
+                tmp->next->prev = tmp->prev;
+                tmp->prev->next = tmp->next;
+                delete tmp;
+                return;
+            }
+            tmp = tmp->next;
+        }
+    }
 }
 
-void Dlist::insert (int index, int data) {
-
+void Dlist::insert (unsigned int index, int data) {
+    unsigned int size = this->size();
+    if (index > size)
+        throw std::invalid_argument("Invalid index");
+    if (index == 0 || head == nullptr)
+        push_front(data);
+    else if (index == size)
+        push_back(data);
+    else {
+        Node *tmp = head;
+        unsigned int count = 0;
+        while (tmp) {
+            if (count == index)
+            {
+                Node *prev = tmp->prev;
+                prev->next = new Node();
+                prev->next->value = data;
+                tmp->prev = prev->next;
+                prev->next->prev = prev;
+                prev->next->next = tmp;
+                return;
+            }
+            tmp = tmp->next;
+            ++count;
+        }
+    }
 }
 
-// int Dlist::size () const {
+unsigned int Dlist::size () const {
+    Node* tmp = head;
+    int count = 0;
+    while (tmp) {
+        tmp = tmp->next;
+        ++count;
+    }
+    return count;
+}
 
-// }
-
-// int Dlist::get (int index) const {
-
-// }
+int Dlist::get (unsigned int index) const {
+    if (index >= this->size())
+        throw std::invalid_argument("Invalid index");
+    int count = 0;
+    Node *tmp = head;
+    while (tmp) {
+        if (count == index)
+            return tmp->value;
+        tmp = tmp->next;
+        ++count;
+    }
+    return 0;
+}
 // //------------------------------operators------------------------------
-// Dlist& Dlist::operator= (const Dlist& rhs) {
+Dlist& Dlist::operator= (const Dlist& rhs) {
+    if (this == &rhs)
+        return *this;
+    if (rhs.head == nullptr)
+        erase();
+    else {
+        Node *tmp = rhs.head;
+        while (tmp != nullptr) {
+            push_back(tmp->value);
+            tmp = tmp->next;
+        }
+    }
+    return *this;
+}
 
-// }
+const Dlist& Dlist::operator= (Dlist&& rhs) {
+    head = rhs.head;
+    tail = rhs.tail;
+    rhs.head = nullptr;
+    rhs.tail = nullptr;
+    return *this;
+}
 
-// const Dlist& Dlist::operator= (Dlist&& rhs) {
+Dlist Dlist::operator+ (const Dlist& rhs) const {
+    Dlist list = *this;
+    Node *tmp = rhs.head;
+    while (tmp) {
+        list.push_back(tmp->value);
+        tmp = tmp->next;
+    }
+    return list;
+}
 
-// }
+int& Dlist::operator[] (int index) {
+    return const_cast<int&>(static_cast<const Dlist&>(*this)[index]);
+}
 
-// Dlist Dlist::operator+ (const Dlist& rhs) const {
+const int& Dlist::operator[] (int index) const {
+    int count = 0;
 
-// }
+    Node* tmp = head;
+    while (tmp != nullptr) {
+        if (index == count)
+            return tmp->value;
+        tmp = tmp->next;
+        ++count;
+    }
+    throw std::invalid_argument("Invalid index");
+}
 
-// int& Dlist::operator[] (int index) {
-//     return const_cast<int&>(static_cast<const Dlist&>(*this)[index]);
-// }
-
-// const int& Dlist::operator[] (int index) const {
-
-// }
-
-// bool Dlist::operator== (const Dlist& rhs) const {
-
-// }
-
+bool Dlist::operator== (const Dlist& rhs) const {
+    if (rhs.size() != this->size())
+        return false;
+    Node *tmp_rhs = rhs.head;
+    Node *tmp_lhs = this->head;
+    while (tmp_lhs) {
+        if (tmp_lhs->value != tmp_rhs->value)
+            return false;
+        tmp_rhs = tmp_rhs->next;
+        tmp_lhs = tmp_lhs->next;
+    }
+    return true;
+}
 //--------------------------------------------------------------------------------

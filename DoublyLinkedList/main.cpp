@@ -2,11 +2,11 @@
 
 int main () {
     Dlist list;
+    Dlist list2;
     for (int i = 1; i <= 10; ++i) {
         list.push_back(i);
+        list2.push_back(i * 2);
     }
-    list.display();
-    Dlist list2 = list;
-    list2.erase();
-    list2.display();
+    Dlist list3 = list + list2;
+    list3.display();
 }

@@ -18,9 +18,9 @@ public:
     void pop_back ();
     void pop_front ();
     void remove (int data);
-    void insert (int index, int data);
-    int size () const;
-    int get (int index) const;
+    void insert (unsigned int index, int data);
+    unsigned int size () const;
+    int get (unsigned int index) const;
 public:
     Dlist& operator= (const Dlist& rhs);
     const Dlist& operator= (Dlist&& rhs);
