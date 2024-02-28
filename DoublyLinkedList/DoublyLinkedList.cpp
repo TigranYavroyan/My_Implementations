@@ -38,14 +38,12 @@ void Dlist::push_back (int value) {
         return;
     }
 
-    Node *tmp = head;
-    while (tmp->next != nullptr) {
-        tmp = tmp->next;
-    }
+    Node *tmp = tail;
     tmp->next = new Node();
     tmp->next->value = value;
     tmp->next->prev = tmp;
     tail = tmp->next;
+}
 }
 
 void Dlist::push_front (int value) {
