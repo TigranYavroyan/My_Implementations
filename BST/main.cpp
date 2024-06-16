@@ -1,14 +1,9 @@
 #include "BST.hpp"
 
 int main () {
-    BST<int> tree;
-    tree.insert(2);
-    tree.insert(5);
-    tree.insert(4);
-    tree.insert(8);
-    tree.insert(1);
-    tree.insert(-2);
-    // tree.insert(7);
-    // tree.insert(9);
-    tree.inorder();
+    std::initializer_list il = {2, 1, -2, -5, -1, 5, 4, 8, 7, 9};
+    BST<int> tree = il;
+    tree.postorder([](const int val){std::cout << val << ' ';});
+    std::cout << '\n';
+    std::cout << tree.find_min() << std::endl;
 }
