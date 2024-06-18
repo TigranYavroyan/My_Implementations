@@ -17,11 +17,12 @@ private:
     Node* m_root = nullptr;
 
 // helpers
-
+    Node* _search (const T&, Node*) const;
     void _insert_from_IL (const std::initializer_list<T>&);
+
     void _insert (const T&, Node*&);
     Node* _remove (const T&, Node*&);
-    bool _search (const T&, Node*) const;
+    bool _find (const T&, Node*) const;
 
     template <typename func>
     void _inorder (func f, Node*);
@@ -34,8 +35,8 @@ private:
 
     Node* _find_min (Node*) const;
     Node* _find_max (Node*) const;
-    T _successor (const T&, Node*) const;
-    T _predecessor (const T&, Node*) const;
+    Node* _successor (Node*) const;
+    Node* _predecessor (Node*) const;
     size_t _height (Node*) const;
     size_t _size (Node*) const;
     void _clear(Node*&) noexcept;
@@ -46,7 +47,7 @@ public:
     void insert (const T&);
     void insert (const std::initializer_list<T>&);
     void remove (const T&);
-    bool search (const T&) const;
+    bool find (const T&) const;
 
     template <typename func>
     void inorder (func f);

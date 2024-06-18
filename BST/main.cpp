@@ -5,5 +5,5 @@ int main () {
     BST<int> tree = il;
     tree.postorder([](const int val){std::cout << val << ' ';});
     std::cout << '\n';
-    std::cout << tree.find_min() << std::endl;
+    std::cout << tree.predecessor(1) << std::endl;
 }

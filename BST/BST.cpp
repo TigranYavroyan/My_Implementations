@@ -1,4 +1,5 @@
 #include "BST.hpp"
+#include <limits.h>
 
 template <typename T>
 void BST<T>::_insert_from_IL(const std::initializer_list<T>& list) {
@@ -92,7 +93,7 @@ T BST<T>::find_min () const {
     if (m_root == nullptr)
     {
         std::cout << "There is no nodes" << std::endl;
-        return 0;
+        return T{};
     }
     return _find_min(m_root)->m_data;
 }
@@ -108,7 +109,7 @@ T BST<T>::find_max () const {
     if (m_root == nullptr)
     {
         std::cout << "There is no nodes" << std::endl;
-        return 0;
+        return T{};
     }
     return _find_max(m_root)->m_data;
 }
@@ -144,17 +145,17 @@ size_t BST<T>::_size (Node* curr) const {
 }
 
 template <typename T>
-bool BST<T>::search (const T& data) const {
+bool BST<T>::find (const T& data) const {
     if (m_root == nullptr) return false;
-    return _search(data, m_root);
+    return _find(data, m_root);
 }
 
 template <typename T>
-bool BST<T>::_search (const T& data, Node* curr) const {
+bool BST<T>::_find (const T& data, Node* curr) const {
     if (curr == nullptr) return false;
     if (curr->m_data == data) return true;
-    if (curr->m_data < data) return _search(data, curr->m_right);
-    else return _search(data, curr->m_left);
+    if (curr->m_data < data) return _find(data, curr->m_right);
+    else return _find(data, curr->m_left);
 }
 
 template <typename T>
@@ -190,23 +191,37 @@ typename BST<T>::Node* BST<T>::_remove (const T& data, Node*& curr) {
 }
 
 template <typename T>
+typename BST<T>::Node* BST<T>::_search(const T& data, Node* curr) const {
+    if (curr == nullptr) return curr;
+    if (curr->m_data == data) return curr;
+    if (curr->m_data < data) return _search(data, curr->m_right);
+    else return _search(data, curr->m_left);
+}
+
+template <typename T>
 T BST<T>::successor (const T& data) const {
+    Node* res = _successor(_search(data, m_root));
+    if (res) return res->m_data;
+    return (res) ? res->m_data : throw std::invalid_argument("There is no successor");
     
 }
 
 template <typename T>
-T BST<T>::_successor (const T& data, Node* curr) const {
-
+typename BST<T>::Node* BST<T>::_successor (Node* curr) const {
+    if (curr == nullptr || curr->m_right == nullptr) return 0;
+    return _find_min(curr->m_right);
 }
 
 template <typename T>
 T BST<T>::predecessor (const T& data) const {
-    
+    Node* res = _predecessor(_search(data, m_root));
+    return (res) ? res->m_data : throw std::invalid_argument("There is no predecessor");
 }
 
 template <typename T>
-T BST<T>::_predecessor (const T& data, Node* curr) const {
-
+typename BST<T>::Node* BST<T>::_predecessor (Node* curr) const {
+    if (curr == nullptr || curr->m_left == nullptr) return 0;
+    return _find_max(curr->m_left);
 }
 
 template <typename T>
