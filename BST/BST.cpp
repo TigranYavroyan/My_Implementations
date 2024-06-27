@@ -27,14 +27,14 @@ void BST<T>::insert(const std::initializer_list<T>& list) {
 template <typename T>
 void BST<T>::insert (const T& data) {
     if (m_root == nullptr) m_root = new Node(data);
-    else _insert(data, m_root);
+    else _insert(data, m_root); // delete all and just write m_root = _insert(data, m_root)
 }
 
 template <typename T>
-void BST<T>::_insert (const T& data, Node*& curr) {
-    if (curr == nullptr) curr = new Node(data);
-    else if (curr->m_data < data) _insert(data, curr->m_right);
-    else _insert(data, curr->m_left);
+void BST<T>::_insert (const T& data, Node*& curr) { // Node*& without '&' will work if this will be wrote like in comments, it is need for balancing 
+    if (curr == nullptr) curr = new Node(data); // return new Node(data);
+    else if (curr->m_data < data) _insert(data, curr->m_right); // curr->m_right = ...
+    else _insert(data, curr->m_left); // curr->m_left = ...
 }
 
 template <typename T>
