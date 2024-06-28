@@ -90,102 +90,10 @@ typename AVL<T>::node_type* AVL<T>::_remove (const T& data, node_type* curr) {
     return curr;
 }
 
-template <typename T>void AVL<T>::insert(const std::initializer_list<T>& list) {
-    this->_insert_from_IL(list);
-}
-
-template <typename T>
-void AVL<T>::insert (const T& data) {
-    this->m_root = _insert(data, this->m_root);
-}
-
-template <typename T>
-template <typename func>
-void AVL<T>::inorder (func f) {
-    if (this->m_root == nullptr) return;
-    this->_inorder(f, this->m_root);
-}
-
-template <typename T>template <typename func>
-void AVL<T>::preorder (func f) {
-    if (this->m_root == nullptr) return;
-    this->_preorder(f, this->m_root);
-}
-
-
-template <typename T>
-template <typename func>
-void AVL<T>::postorder (func f) {
-    if (this->m_root == nullptr) return;
-    this->_postorder(f, this->m_root);
-}
-
-template <typename T>
-T AVL<T>::find_min () const {
-    if (this->m_root == nullptr)
-    {
-        std::cout << "There is no nodes" << std::endl;
-        return T{};
-    }
-    return this->_find_min(this->m_root)->m_data;
-}
-
-template <typename T>
-T AVL<T>::find_max () const {
-    if (this->m_root == nullptr)
-    {
-        std::cout << "There is no nodes" << std::endl;
-        return T{};
-    }
-    return this->_find_max(this->m_root)->m_data;
-}
-
-template <typename T>
-int AVL<T>::height () const {
-    return this->_height(this->m_root);
-}
-
-template <typename T>
-size_t AVL<T>::size () const {
-    return this->_size(this->m_root) - 1;
-}
-
-template <typename T>
-bool AVL<T>::find (const T& data) const {
-    if (this->m_root == nullptr) return false;
-    return this->_find(data, this->m_root);
-}
-
-template <typename T>
-void AVL<T>::remove (const T& data) {
-    if (this->m_root == nullptr) return;
-    this->m_root = _remove(data, this->m_root);
-}
-
-template <typename T>
-T AVL<T>::successor (const T& data) const {
-    node_type* res = this->_successor(_search(data, this->m_root));
-    if (res) return res->m_data;
-    return (res) ? res->m_data : throw std::invalid_argument("There is no successor");
-
-}
-
-template <typename T>
-T AVL<T>::predecessor (const T& data) const {
-    node_type* res = this->_predecessor(_search(data, this->m_root));
-    return (res) ? res->m_data : throw std::invalid_argument("There is no predecessor");
-}
-
-template <typename T>
-void AVL<T>::clear () noexcept {
-    this->_clear(this->m_root);
-    this->m_root = nullptr;
-}
-
 template <typename T>
 AVL<T>::AVL (const std::initializer_list<T>& list) {
     this->_insert_from_IL(list);
 }
 
 template <typename T>
-AVL<T>::~AVL () noexcept { clear(); }
+AVL<T>::~AVL () noexcept { this->_clear(this->m_root); }
