@@ -25,7 +25,7 @@ void A_BST<T>::inorder (func f) {
 
 template <typename T>
 template <typename func>
-void A_BST<T>::_inorder (func f, Node* curr) {    
+void A_BST<T>::_inorder (func f, Node* curr) {
     if (curr) {
         _inorder(f, curr->m_left);
         f(curr->m_data);
@@ -153,15 +153,23 @@ typename A_BST<T>::Node* A_BST<T>::_search(const T& data, Node* curr) const {
 template <typename T>
 T A_BST<T>::successor (const T& data) const {
     Node* res = _successor(_search(data, m_root));
-    if (res) return res->m_data;
     return (res) ? res->m_data : throw std::invalid_argument("There is no successor");
-
 }
 
 template <typename T>
 typename A_BST<T>::Node* A_BST<T>::_successor (Node* curr) const {
-    if (curr == nullptr || curr->m_right == nullptr) return 0;
-    return _find_min(curr->m_right);
+    if (curr == nullptr) return 0;
+    if (curr->m_right) return _find_min(curr->m_right);
+	Node* anc = m_root;
+	Node* succ = nullptr;
+	while (anc != curr) {
+		if (anc->m_data > curr->m_data) {
+			succ = anc;
+			anc = anc->m_left;
+		}
+		else anc = anc->m_right;
+	}
+	return succ;
 }
 
 template <typename T>
@@ -172,8 +180,18 @@ T A_BST<T>::predecessor (const T& data) const {
 
 template <typename T>
 typename A_BST<T>::Node* A_BST<T>::_predecessor (Node* curr) const {
-    if (curr == nullptr || curr->m_left == nullptr) return 0;
-    return _find_max(curr->m_left);
+    if (curr == nullptr) return 0;
+    if (curr->m_left) return _find_max(curr->m_left);
+	Node* anc = m_root;
+	Node* pred = nullptr;
+	while (anc != curr) {
+		if (anc->m_data < curr->m_data) {
+			pred = anc;
+			anc = anc->m_right;
+		}
+		else anc = anc->m_left;
+	}
+	return pred;
 }
 
 template <typename T>
