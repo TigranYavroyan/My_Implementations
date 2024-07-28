@@ -7,7 +7,7 @@ RB_tree<T>::RB_tree (const std::initializer_list<T>& list) {
 
 template <typename T>
 RB_tree<T>::~RB_tree () noexcept { 
-    // this->_clear(this->m_root);
+    this->_clear(this->m_root);
 }
 
 template <typename T>
