@@ -4,7 +4,6 @@
 #include <queue>
 #include <vector>
 
-
 enum class _color {RED, BLACK};
 
 template <typename T>
@@ -14,8 +13,8 @@ struct Node
     Node<T>* m_left;
     Node<T>* m_right;
 
-    Node<T>() : m_left{nullptr}, m_right{nullptr}, m_data{T{}} {}
-    Node<T>(const T& data) : m_left{nullptr}, m_right{nullptr}, m_data{data} {}
+    Node () : m_left{nullptr}, m_right{nullptr}, m_data{T{}} {}
+    Node (const T& data) : m_left{nullptr}, m_right{nullptr}, m_data{data} {}
 };
 
 template <typename T>
@@ -26,8 +25,9 @@ struct RB_Node {
     RB_Node<T>* m_right;
     RB_Node<T>* m_parent;
 
-    RB_Node<T>() : m_left{nullptr}, m_right{nullptr}, m_parent{nullptr}, m_data{T{}} {}
-    RB_Node<T>(const T& data) : m_left{nullptr}, m_right{nullptr}, m_parent{nullptr}, m_data{data} {}
+    RB_Node () : m_left{nullptr}, m_right{nullptr}, m_parent{nullptr}, m_data{T{}}, m_color{_color::RED} {}
+    RB_Node (const T& data) : m_left{nullptr}, m_right{nullptr}, m_parent{nullptr}, m_data{data}, m_color{_color::RED} {}
+    RB_Node (_color color) : m_left{nullptr}, m_right{nullptr}, m_parent{nullptr}, m_data{T{}}, m_color{color} {}
 };
 
 template <typename T, typename m_node = Node<T> >

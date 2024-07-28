@@ -1,20 +1,20 @@
 #include "AVL.hpp"
 
 template <typename T>
-typename AVL<T>::node_pointer AVL<T>::_left_rotate (node_pointer z) { // RR
-    node_pointer y = z->m_right;
+typename AVL<T>::node_pointer AVL<T>::_left_rotate (node_pointer x) { // RR
+    node_pointer y = x->m_right;
     node_pointer T2 = y->m_left;
-    z->m_right = T2;
-    y->m_left = z;
+    x->m_right = T2;
+    y->m_left = x;
     return y;
 }
 
 template <typename T>
-typename AVL<T>::node_pointer AVL<T>::_right_rotate (node_pointer z) { // RR
-    node_pointer y = z->m_left;
+typename AVL<T>::node_pointer AVL<T>::_right_rotate (node_pointer x) { // LL
+    node_pointer y = x->m_left;
     node_pointer T3 = y->m_right;
-    z->m_left = T3;
-    y->m_right = z;
+    x->m_left = T3;
+    y->m_right = x;
     return y;
 }
 

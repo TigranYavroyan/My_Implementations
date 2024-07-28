@@ -10,8 +10,8 @@ void A_BST<T, m_node>::_insert_from_IL(const std::initializer_list<T>& list) {
 template <typename T, typename m_node>
 void A_BST<T, m_node>::insert(const std::initializer_list<T>& list) {
     _insert_from_IL(list);
-
 }
+
 template <typename T, typename m_node>
 void A_BST<T, m_node>::insert (const T& data) {
     m_root = _insert(data, m_root);
