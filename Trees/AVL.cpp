@@ -1,30 +1,30 @@
 #include "AVL.hpp"
 
 template <typename T>
-typename AVL<T>::node_type* AVL<T>::_left_rotate (node_type* z) { // RR
-    node_type* y = z->m_right;
-    node_type* T2 = y->m_left;
+typename AVL<T>::node_pointer AVL<T>::_left_rotate (node_pointer z) { // RR
+    node_pointer y = z->m_right;
+    node_pointer T2 = y->m_left;
     z->m_right = T2;
     y->m_left = z;
     return y;
 }
 
 template <typename T>
-typename AVL<T>::node_type* AVL<T>::_right_rotate (node_type* z) { // RR
-    node_type* y = z->m_left;
-    node_type* T3 = y->m_right;
+typename AVL<T>::node_pointer AVL<T>::_right_rotate (node_pointer z) { // RR
+    node_pointer y = z->m_left;
+    node_pointer T3 = y->m_right;
     z->m_left = T3;
     y->m_right = z;
     return y;
 }
 
 template <typename T>
-int AVL<T>::_get_BF (node_type* curr) {
+int AVL<T>::_get_BF (node_pointer curr) {
     return (this->_height(curr->m_left) - this->_height(curr->m_right));
 }
 
 template <typename T>
-typename AVL<T>::node_type* AVL<T>::_insert (const T& data, node_type* curr) {
+typename AVL<T>::node_pointer AVL<T>::_insert (const T& data, node_pointer curr) {
     if (curr == nullptr) return new node_type(data);
     else if (curr->m_data < data) curr->m_right = _insert(data, curr->m_right);
     else curr->m_left = _insert(data, curr->m_left);
@@ -48,12 +48,12 @@ typename AVL<T>::node_type* AVL<T>::_insert (const T& data, node_type* curr) {
 }
 
 template <typename T>
-typename AVL<T>::node_type* AVL<T>::_remove (const T& data, node_type* curr) {
+typename AVL<T>::node_pointer AVL<T>::_remove (const T& data, node_pointer curr) {
     if (curr == nullptr) return curr;
     if (curr->m_data > data) curr->m_left = _remove(data, curr->m_left);
     else if (curr->m_data < data) curr->m_right = _remove(data, curr->m_right);
     else {
-        node_type* tmp;
+        node_pointer tmp;
         if (curr->m_left == nullptr) {
             tmp = curr->m_right;
             delete curr;

@@ -1,44 +1,70 @@
 #ifndef A_BST_HPP
 #define A_BST_HPP
 #include <iostream>
+#include <queue>
+#include <vector>
+
+
+enum class _color {RED, BLACK};
 
 template <typename T>
+struct Node
+{
+    T m_data;
+    Node<T>* m_left;
+    Node<T>* m_right;
+
+    Node<T>() : m_left{nullptr}, m_right{nullptr}, m_data{T{}} {}
+    Node<T>(const T& data) : m_left{nullptr}, m_right{nullptr}, m_data{data} {}
+};
+
+template <typename T>
+struct RB_Node {
+    T m_data;
+    _color m_color;
+    RB_Node<T>* m_left;
+    RB_Node<T>* m_right;
+    RB_Node<T>* m_parent;
+
+    RB_Node<T>() : m_left{nullptr}, m_right{nullptr}, m_parent{nullptr}, m_data{T{}} {}
+    RB_Node<T>(const T& data) : m_left{nullptr}, m_right{nullptr}, m_parent{nullptr}, m_data{data} {}
+};
+
+template <typename T, typename m_node = Node<T> >
 class A_BST
 {
+public:
+    using node_type = m_node;
+    using node_pointer = m_node*;
 protected:
-    struct Node
-    {
-        T m_data;
-        Node* m_left;
-        Node* m_right;
-        Node() : m_left{nullptr}, m_right{nullptr} {}
-        Node(const T& data) : m_left{nullptr}, m_right{nullptr}, m_data{data} {}
-    };
-    Node* m_root = nullptr;
+    node_pointer m_root = nullptr;
 
-    Node* _search (const T&, Node*) const;
+    node_pointer _search (const T&, node_pointer) const;
     void _insert_from_IL (const std::initializer_list<T>&);
 
-    virtual Node* _insert (const T&, Node*) = 0;
-    virtual Node* _remove (const T&, Node*) = 0;
-    bool _find (const T&, Node*) const;
+    virtual node_pointer _insert (const T&, node_pointer) = 0;
+    virtual node_pointer _remove (const T&, node_pointer) = 0;
+    bool _find (const T&, node_pointer) const;
 
     template <typename func>
-    void _inorder (func f, Node*);
+    void _inorder (func f, node_pointer);
 
     template <typename func>
-    void _preorder (func f, Node*);
+    void _preorder (func f, node_pointer);
 
     template <typename func>
-    void _postorder (func f, Node*);
+    void _postorder (func f, node_pointer);
 
-    Node* _find_min (Node*) const;
-    Node* _find_max (Node*) const;
-    Node* _successor (Node*) const;
-    Node* _predecessor (Node*) const;
-    int _height (Node*) const;
-    size_t _size (Node*) const;
-    void _clear(Node*&) noexcept;
+    template <typename func>
+    void _level_order (func f, node_pointer);
+
+    node_pointer _find_min (node_pointer) const;
+    node_pointer _find_max (node_pointer) const;
+    node_pointer _successor (node_pointer) const;
+    node_pointer _predecessor (node_pointer) const;
+    int _height (node_pointer) const;
+    size_t _size (node_pointer) const;
+    void _clear(node_pointer&) noexcept;
 public:
     virtual ~A_BST () noexcept = default;
     void insert (const T&);
@@ -54,6 +80,9 @@ public:
 
     template <typename func>
     void postorder (func f);
+
+    template <typename func>
+    void level_order (func f);
 
     T find_min () const;
     T find_max () const;

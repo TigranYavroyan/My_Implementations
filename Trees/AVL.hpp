@@ -4,16 +4,17 @@
 #include "A_BST.hpp"
 
 template <typename T>
-class AVL : public A_BST<T> {
+class AVL final : public A_BST<T, Node<T> > {
+public:
+    using node_type = Node<T>;
+    using node_pointer = Node<T>*;
 private:
-    using node_type = typename A_BST<T>::Node;
+    node_pointer _left_rotate (node_pointer z);
+    node_pointer _right_rotate (node_pointer z);
+    int       _get_BF(node_pointer curr);
 
-    node_type* _left_rotate (node_type* z);
-    node_type* _right_rotate (node_type* z);
-    int       _get_BF(node_type* curr);
-
-    node_type* _insert(const T&, node_type*) override;
-    node_type* _remove(const T&, node_type*) override;
+    node_pointer _insert(const T&, node_pointer) override;
+    node_pointer _remove(const T&, node_pointer) override;
 public:
     AVL () = default;
     AVL (const std::initializer_list<T>&);
