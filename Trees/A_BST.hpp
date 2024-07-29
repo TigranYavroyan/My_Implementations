@@ -28,6 +28,11 @@ struct RB_Node {
     RB_Node () : m_left{nullptr}, m_right{nullptr}, m_parent{nullptr}, m_data{T{}}, m_color{_color::RED} {}
     RB_Node (const T& data) : m_left{nullptr}, m_right{nullptr}, m_parent{nullptr}, m_data{data}, m_color{_color::RED} {}
     RB_Node (_color color) : m_left{nullptr}, m_right{nullptr}, m_parent{nullptr}, m_data{T{}}, m_color{color} {}
+
+    RB_Node (RB_Node<T>* nil, _color color, const T& data) : m_left{nil}, m_right{nil}, m_parent{nil}, m_data{data}, m_color{color} {}
+    RB_Node (RB_Node<T>* nil, const T& data) : RB_Node (nil, _color::RED, data) {}
+    RB_Node (RB_Node<T>* nil, _color color) : RB_Node (nil, color, T{}) {}
+    RB_Node (RB_Node<T>* nil) : RB_Node (nil, _color::RED, T{}) {}
 };
 
 template <typename T, typename m_node = Node<T> >

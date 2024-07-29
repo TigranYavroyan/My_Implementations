@@ -33,7 +33,8 @@ void A_BST<T, m_node>::_inorder (func f, node_pointer curr) {
         _inorder(f, curr->m_right);
     }
 }
-template <typename T, typename m_node>template <typename func>
+template <typename T, typename m_node>
+template <typename func>
 void A_BST<T, m_node>::preorder (func f) {
     if (m_root == nullptr) return;
     _preorder(f, m_root);
