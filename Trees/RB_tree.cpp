@@ -111,7 +111,10 @@ typename RB_tree<T>::node_pointer RB_tree<T>::_insert (const T& data, node_point
 
     to_add->m_parent = y;
 
-    if (y == nullptr) return to_add;
+    if (y == nullptr) {
+        to_add->m_color = _color::BLACK;
+        return to_add;
+    }
     else if (y->m_data >= data) y->m_left = to_add;
     else y->m_right = to_add;
 
@@ -121,6 +124,55 @@ typename RB_tree<T>::node_pointer RB_tree<T>::_insert (const T& data, node_point
 }
 
 template <typename T>
-typename RB_tree<T>::node_pointer RB_tree<T>::_remove (const T& data, node_pointer curr) {
+void RB_tree<T>::_transplant(node_pointer u, node_pointer v) { // v's parent becomes u's parent
+    if (u->m_parent == nullptr)
+        this->m_root = v;
+    else if (u == u->m_parent->left)
+        u->m_parent->m_left = v;
+    else
+        u->m_parent->m_right = v;
+    v->m_parent = u->m_parent;
+}
 
+template <typename T>
+void RB_tree<T>::_delete_fix_up (node_pointer curr) {
+
+}
+
+template <typename T>
+typename RB_tree<T>::node_pointer RB_tree<T>::_remove (const T& data, node_pointer root) {
+    node_pointer z = this->_search(data, root);;
+    node_pointer y = z;
+    node_pointer x = nullptr;
+    _color y_orig_color = y->m_color;
+
+    if (z && z->m_left == nullptr) {
+        x = z->m_right;
+        _transplant(z, z->m_right);
+    }
+    else if (z && z->m_right = nullptr) {
+        x = z->m_left;
+        _transplant(z, z->m_left);
+    }
+    else {
+        y = this->_find_min(z->m_right);
+        y_orig_color = y->m_color;
+        x = y->m_right;
+        if (y->m_parent == x)
+            x->m_parent = z;
+        else {
+            _transplant(y, y->m_right);
+            y->m_right = z->m_right;
+            y->m_right->m_parent = y;
+        }
+        _transplant(z, y);
+        y->m_left = z->m_left;
+        y->m_left->m_parent = y;
+        y->m_color = z->m_color;
+        if (y_orig_color == _color::BLACK)
+            _delete_fix_up(x);
+    }
+
+
+    return this->m_root;
 }

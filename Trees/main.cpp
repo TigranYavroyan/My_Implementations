@@ -8,6 +8,7 @@ int main () {
     std::initializer_list<int> il3 = {12, 9, 15, 13, 16, 10, 8};
     std::initializer_list<int> il4 = {0, 5, 10, 20, 30, 29, 28, 27, 26, 25, 21, 22, 23, 24};
     RB_tree<int> tree = il4;
+    tree.remove(28);
     // AVL<int> a_tree = il2;
     // BST<int> tree = il4;
     // tree.level_order([](const int val){std::cout << val << ' ';});

@@ -12,6 +12,8 @@ private:
     node_pointer _left_rotate (node_pointer);
     node_pointer _right_rotate (node_pointer);
     void _insert_fix_up (node_pointer);
+    void _transplant (node_pointer, node_pointer);
+    void _delete_fix_up (node_pointer);
 
     node_pointer _insert (const T&, node_pointer) override;
     node_pointer _remove (const T&, node_pointer) override;
